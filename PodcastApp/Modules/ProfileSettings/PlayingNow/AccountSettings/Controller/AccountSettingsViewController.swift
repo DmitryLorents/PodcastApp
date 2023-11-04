@@ -40,11 +40,10 @@ final class AccountSettingsViewController: UIViewController {
     private let edgeOffset: CGFloat = 24
     
     private lazy var contentSize: CGSize = {
-        CGSize(width: view.bounds.width, height: view.bounds.height + 100)
+        CGSize(width: view.bounds.width, height: femaleButton.frame.maxY + 100)
     }()
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
-        view.contentSize = contentSize
         view.isScrollEnabled = true
         return view
     }()
@@ -94,7 +93,6 @@ final class AccountSettingsViewController: UIViewController {
         button.setTitle("Save changes", for: .normal)
         button.backgroundColor = .saveButtonColor
         button.layer.cornerRadius = 24
-        //button.font = .custome(name: .plusJakartaSans600, size: 16) ?? UIFont.systemFont(ofSize: 16)
         button.setTitleColor(.gray, for: .normal)
         return button
     }()
@@ -158,6 +156,7 @@ final class AccountSettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         setViews()
+        setupConstraints()
         setDelegates()
         setAlertParams()
         setTargets()
@@ -174,6 +173,9 @@ final class AccountSettingsViewController: UIViewController {
         //hide back button text
         navigationController?.navigationBar.backItem?.title = ""
         navigationItem.backButtonTitle = ""
+        //set content size
+        scrollView.contentSize = contentSize
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -187,7 +189,7 @@ final class AccountSettingsViewController: UIViewController {
         super.viewDidLayoutSubviews()
         makeRoundShape()
         setPickerParams()
-        setupConstraints()
+        
     }
     
     //MARK: - Methods
@@ -226,8 +228,7 @@ final class AccountSettingsViewController: UIViewController {
                             saveChangeButton
         )
         dateTextField.addSubview(imageViewCalendar)
-        
-        //horisontalStack.addViewInStack(stack: horisontalStack,views: maleButton,femaleButton)
+        view.addSubview(saveChangeButton)
         view.addSubview(alertView)
         alertView.addSubview(alertLable)
         alertView.addSubview(verticalStackAlert)
@@ -341,7 +342,7 @@ final class AccountSettingsViewController: UIViewController {
                 saveChangeButton.snp.makeConstraints { make in
                     make.leading.trailing.equalTo(firstNameTextField)
                     make.height.equalTo(56)
-                    make.top.equalTo(femaleButton.snp.bottom).inset(-242)
+                    make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
                 }
         //
         //        horisontalStack.snp.makeConstraints { make in

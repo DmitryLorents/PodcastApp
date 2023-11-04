@@ -108,59 +108,31 @@ final class AccountSettingsViewController: UIViewController {
         view.layer.cornerRadius = 12
         return view
     }()
-    private let alertTextParam = TextParameters(
-        font: UIFont(name: "Arial-BoldMT", size: 20)!,
-        text: "Change your picture"
-    )
-    private lazy var alertLable = AccountSettingsViewController.makeLable(
-        params: alertTextParam
-    )
-    private lazy var verticalStackAlert = AccountSettingsViewController.makeStackVertical()
-    private let fotoButtonParams = ButtonsParams(
-        size:
-            CGSize(
-                width: 296,
-                height: 60
-            ),
-        radius:
-            8,
-        color: .gray,
-        image: "",
-        title: "Take a foto"
-    )
-    private lazy var fotoButton = AccountSettingsViewController.makeButtonImage(
-        params: fotoButtonParams
-    )
-    private let chooseButtonParams = ButtonsParams(
-        size:
-            CGSize(
-                width: 296,
-                height: 60
-            ),
-        radius:
-            8,
-        color: .gray,
-        image: "",
-        title: "Choose from you file"
-    )
-    private lazy var chooseButton = AccountSettingsViewController.makeButtonImage(
-        params: chooseButtonParams
-    )
-    private let deleteButtonParams = ButtonsParams(
-        size:
-            CGSize(
-                width: 296,
-                height: 60
-            ),
-        radius:
-            8,
-        color: .gray,
-        image: "",
-        title: "Delete photo"
-    )
-    private lazy var deleteButton = AccountSettingsViewController.makeButtonImage(
-        params: deleteButtonParams
-    )
+    private lazy var alertLable: UILabel = {
+        let label = UILabel()
+        label.font = .custome(name: .plusJakartaSans600, size: 20)
+        label.tintColor = .black
+        label.textAlignment = .center
+        label.text = "Change your picture"
+        return label
+    }()
+    private lazy var grayLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        return view
+    }()
+    private lazy var verticalStackAlert: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.spacing = 20
+        view.alignment = .center
+        view.distribution = .fill
+        view.isLayoutMarginsRelativeArrangement = true
+        return view
+    }()
+    private lazy var fotoButton = CustomPhotoButton(title: "Take a photo", imageName: "")
+    private lazy var chooseButton = CustomPhotoButton(title: "Choose from your file", imageName: "")
+    private lazy var deleteButton = CustomPhotoButton(title: "Delete photo", imageName: "")
     
     //MARK: - Life cycle
     
@@ -240,11 +212,13 @@ final class AccountSettingsViewController: UIViewController {
         dateTextField.addSubview(imageViewCalendar)
         view.addSubview(saveChangeButton)
         view.addSubview(alertView)
-        alertView.addSubview(alertLable)
         alertView.addSubview(verticalStackAlert)
+        verticalStackAlert.addArrangedSubview(alertLable)
+        verticalStackAlert.addArrangedSubview(grayLineView)
         verticalStackAlert.addArrangedSubview(fotoButton)
         verticalStackAlert.addArrangedSubview(chooseButton)
         verticalStackAlert.addArrangedSubview(deleteButton)
+        deleteButton.tintColor = .red
     }
     
     private func setNavigationAppearance() {
@@ -351,41 +325,45 @@ final class AccountSettingsViewController: UIViewController {
             make.top.equalTo(maleButton)
         }
         
-                saveChangeButton.snp.makeConstraints { make in
-                    make.leading.trailing.equalTo(firstNameTextField)
-                    make.height.equalTo(56)
-                    make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
-                }
+        saveChangeButton.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(firstNameTextField)
+            make.height.equalTo(56)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
         
-                alertView.snp.makeConstraints { make in
-                    make.top.equalToSuperview().offset(180)
-                    make.leading.trailing.equalToSuperview().inset(24)
-                    make.height.equalTo(340)
-                }
+        alertView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(180)
+            make.leading.trailing.equalToSuperview().inset(24)
+            make.height.equalTo(340)
+        }
         
-                alertLable.snp.makeConstraints { make in
-                    make.centerX.equalTo(alertView)
-                    make.top.equalTo(alertView).offset(20)
-                }
+        verticalStackAlert.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.bottom.equalToSuperview().inset(20)
+        }
         
-                verticalStackAlert.snp.makeConstraints { make in
-                    make.leading.bottom.trailing.equalTo(alertView).offset(0)
-                    make.top.equalTo(alertLable.snp_bottomMargin).offset(10)
-                }
+        alertLable.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(verticalStackAlert)
+           //make.top.equalTo(alertView).offset(20)
+        }
         
-                fotoButton.snp.makeConstraints { make in
-                    make.leading.trailing.equalTo(alertView).inset(16)
-                    make.height.equalTo(60)
-                }
-                chooseButton.snp.makeConstraints { make in
-                    make.leading.trailing.equalTo(alertView).inset(16)
-                    make.height.equalTo(60)
-                }
-                deleteButton.snp.makeConstraints { make in
-                    make.leading.trailing.equalTo(alertView).inset(16)
-                    make.height.equalTo(60)
-                    make.bottom.equalTo(alertView).inset(20)
-                }
+        grayLineView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(verticalStackAlert)
+            make.height.equalTo(2)
+        }
+        
+        fotoButton.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(verticalStackAlert)
+           //make.height.equalTo(60)
+        }
+        chooseButton.snp.makeConstraints { make in
+           make.leading.trailing.equalTo(verticalStackAlert)
+            //make.height.equalTo(60)
+        }
+        deleteButton.snp.makeConstraints { make in
+           make.leading.trailing.equalTo(verticalStackAlert)
+            //make.height.equalTo(60)
+        }
         
     }
     
@@ -430,9 +408,6 @@ final class AccountSettingsViewController: UIViewController {
     
     //MARK: - private func
     
-    private func makeRoundCorner( _ view: inout UIView) {
-        view.layer.cornerRadius = view.frame.height / 2
-    }
     
     private func formatDate(date: Date) -> String {
         let formatter = DateFormatter()
@@ -464,168 +439,6 @@ final class AccountSettingsViewController: UIViewController {
         femaleButton.addTarget(self, action: #selector(femaleButtonPressed), for: .touchUpInside)
         saveChangeButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         datePiker.addTarget(self, action: #selector (setDateCalendar(datePiker:)), for: .valueChanged)
-    }
-}
-
-
-//MARK: - private extension
-private extension AccountSettingsViewController{
-    //    static func makeScrolView(contentSize: CGSize, view: UIView) -> UIScrollView {
-    //        let scrollView = UIScrollView()
-    //        scrollView.contentSize = contentSize
-    //        scrollView.frame = view.bounds
-    //        scrollView.isScrollEnabled = true
-    //        scrollView.translatesAutoresizingMaskIntoConstraints = false
-    //        return scrollView
-    //    }
-    
-    //    static func  makecontentView(contentSize: CGSize) -> UIView {
-    //        let contentView = UIView()
-    //        contentView.frame.size = contentSize
-    //        //contentView.backgroundColor = .magenta
-    //        contentView.translatesAutoresizingMaskIntoConstraints = false
-    //        return contentView
-    //    }
-    
-    static func makeView() -> UIView {
-        let view = UIView()
-        //view.backgroundColor = .green
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }
-    
-    static func makeButton(params: ButtonsParams) -> UIButton {
-        let button = UIButton()
-        button.frame.size = params.size
-        button.layer.cornerRadius = params.radius
-        button.backgroundColor = params.color
-        button.setTitle("Save Changes", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
-    
-    static func makeButtonEdit(params: ButtonsParams) -> UIButton {
-        var configuration = UIButton.Configuration.gray()
-        // не масштабируется картнка кастомная
-        configuration.image = UIImage(named: "pen")
-        configuration.imagePlacement = .leading
-        configuration.baseBackgroundColor = params.color
-        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 10)
-        let button = UIButton(configuration: configuration)
-        button.layer.cornerRadius = params.radius
-        button.tintColor = .white
-        button.clipsToBounds = true
-        button.layer.borderColor =  UIColor.white.cgColor
-        button.layer.borderWidth = 3
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
-    
-    static func makeButtonImage(params: ButtonsParams) -> UIButton {
-        var configuration = UIButton.Configuration.gray()
-        configuration.image = UIImage(systemName: params.image)
-        configuration.imagePlacement = .leading
-        configuration.imagePadding = 5
-        configuration.title = params.title
-        configuration.baseBackgroundColor = params.color
-        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 15)
-        let button = UIButton(configuration: configuration)
-        button.layer.cornerRadius = params.radius
-        button.tintColor = .black
-        button.clipsToBounds = true
-        button.layer.borderColor =  UIColor.white.cgColor
-        button.layer.borderWidth = 3
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
-    
-    static func makeLable(params: TextParameters) -> UILabel {
-        let lableView = UILabel()
-        let textFont = params.font
-        lableView.font = textFont
-        lableView.text = params.text
-        lableView.translatesAutoresizingMaskIntoConstraints = false
-        return lableView
-    }
-    
-    static func makeStackVertical() -> UIStackView {
-        let stackVerticalView = UIStackView()
-        stackVerticalView.axis = .vertical
-        stackVerticalView.spacing = 3
-        stackVerticalView.alignment = .center
-        //stackVerticalView.backgroundColor = .green
-        stackVerticalView.translatesAutoresizingMaskIntoConstraints = false
-        return stackVerticalView
-    }
-    
-    static func makeStackHorisontal() -> UIStackView {
-        let stackVerticalView = UIStackView()
-        stackVerticalView.axis = .horizontal
-        stackVerticalView.spacing = 3
-        stackVerticalView.alignment = .center
-        stackVerticalView.distribution = .equalCentering
-        //stackVerticalView.backgroundColor = .yellow
-        stackVerticalView.translatesAutoresizingMaskIntoConstraints = false
-        return stackVerticalView
-    }
-    
-    static func makeImage(parameters: ImageParameters) -> UIImageView {
-        let imageView = UIImageView()
-        imageView.frame.size = parameters.size
-        imageView.image = UIImage(named: parameters.image)
-        imageView.layer.cornerRadius = parameters.radiusImage
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }
-    
-    static func makeTextField(parameters: TextFieldParameters) -> UITextField {
-        let textField = UITextField()
-        //textField.frame.size = parameters.size
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height)) //вынести конст
-        textField.leftViewMode = .always
-        //textField.layer.cornerRadius = parameters.radius
-        textField.placeholder = parameters.placeholder
-        //установить стиль
-        textField.layer.masksToBounds = true
-        textField.layer.borderColor =  UIColor.blue.cgColor
-        textField.layer.borderWidth = 1
-        //textField.backgroundColor = .white
-        return textField
-    }
-    
-    static func makeTextFieldWithImage(parameters: TextFieldParameters) -> UITextField {
-        let textField = UITextField()
-        textField.frame.size = parameters.size
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height)) //вынести конст
-        textField.leftViewMode = .always
-        textField.layer.cornerRadius = parameters.radius
-        textField.placeholder = parameters.placeholder
-        //textField.backgroundColor = .white
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }
-    
-    static func makeBlur() -> UIVisualEffectView {
-        let blur = UIBlurEffect(style: .dark)
-        let blurView = UIVisualEffectView(effect: blur)
-        blurView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        return blurView
-    }
-}
-
-private extension UIView {
-    func addViews(views: UIView...) {
-        for view in views {
-            self.addSubview(view)
-        }
-    }
-    
-    func addViewInStack(stack: UIStackView, views: UIView...) {
-        for view in views {
-            stack.addArrangedSubview(view)
-        }
     }
 }
 

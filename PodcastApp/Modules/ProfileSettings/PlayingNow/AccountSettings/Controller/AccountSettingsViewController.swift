@@ -108,6 +108,15 @@ final class AccountSettingsViewController: UIViewController {
         view.layer.cornerRadius = 12
         return view
     }()
+    private lazy var verticalStackAlert: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.spacing = 20
+        view.alignment = .fill
+        view.distribution = .fillEqually
+        view.isLayoutMarginsRelativeArrangement = true
+        return view
+    }()
     private lazy var alertLable: UILabel = {
         let label = UILabel()
         label.font = .custome(name: .plusJakartaSans600, size: 20)
@@ -118,18 +127,10 @@ final class AccountSettingsViewController: UIViewController {
     }()
     private lazy var grayLineView: UIView = {
         let view = UIView()
-        view.backgroundColor = .gray
+        view.backgroundColor = .systemGray5
         return view
     }()
-    private lazy var verticalStackAlert: UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        view.spacing = 20
-        view.alignment = .center
-        view.distribution = .fill
-        view.isLayoutMarginsRelativeArrangement = true
-        return view
-    }()
+    
     private lazy var fotoButton = CustomPhotoButton(title: "Take a photo", imageName: "")
     private lazy var chooseButton = CustomPhotoButton(title: "Choose from your file", imageName: "")
     private lazy var deleteButton = CustomPhotoButton(title: "Delete photo", imageName: "")
@@ -214,7 +215,7 @@ final class AccountSettingsViewController: UIViewController {
         view.addSubview(alertView)
         alertView.addSubview(verticalStackAlert)
         verticalStackAlert.addArrangedSubview(alertLable)
-        verticalStackAlert.addArrangedSubview(grayLineView)
+        verticalStackAlert.addSubview(grayLineView)
         verticalStackAlert.addArrangedSubview(fotoButton)
         verticalStackAlert.addArrangedSubview(chooseButton)
         verticalStackAlert.addArrangedSubview(deleteButton)
@@ -332,9 +333,9 @@ final class AccountSettingsViewController: UIViewController {
         }
         
         alertView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(180)
+            make.center.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(24)
-            make.height.equalTo(340)
+            make.height.equalToSuperview().dividedBy(3.0)
         }
         
         verticalStackAlert.snp.makeConstraints { make in
@@ -342,28 +343,29 @@ final class AccountSettingsViewController: UIViewController {
             make.top.bottom.equalToSuperview().inset(20)
         }
         
-        alertLable.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(verticalStackAlert)
-           //make.top.equalTo(alertView).offset(20)
-        }
+//        alertLable.snp.makeConstraints { make in
+//           // make.leading.trailing.equalTo(verticalStackAlert)
+//           //make.top.equalTo(alertView).offset(20)
+//        }
         
         grayLineView.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(verticalStackAlert)
+            make.leading.trailing.equalTo(alertView)
+            make.top.equalTo(alertLable.snp.bottom)
             make.height.equalTo(2)
         }
         
-        fotoButton.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(verticalStackAlert)
-           //make.height.equalTo(60)
-        }
-        chooseButton.snp.makeConstraints { make in
-           make.leading.trailing.equalTo(verticalStackAlert)
-            //make.height.equalTo(60)
-        }
-        deleteButton.snp.makeConstraints { make in
-           make.leading.trailing.equalTo(verticalStackAlert)
-            //make.height.equalTo(60)
-        }
+//        fotoButton.snp.makeConstraints { make in
+//            make.leading.trailing.equalTo(verticalStackAlert)
+//           //make.height.equalTo(60)
+//        }
+//        chooseButton.snp.makeConstraints { make in
+//           make.leading.trailing.equalTo(verticalStackAlert)
+//            //make.height.equalTo(60)
+//        }
+//        deleteButton.snp.makeConstraints { make in
+//           make.leading.trailing.equalTo(verticalStackAlert)
+//            //make.height.equalTo(60)
+//        }
         
     }
     

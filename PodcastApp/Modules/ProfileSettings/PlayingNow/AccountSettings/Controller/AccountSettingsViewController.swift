@@ -96,8 +96,18 @@ final class AccountSettingsViewController: UIViewController {
         button.setTitleColor(.gray, for: .normal)
         return button
     }()
-    private lazy var blur = AccountSettingsViewController.makeBlur()
-    private lazy var alertView = AccountSettingsViewController.makeView()
+    private let blur: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: .dark)
+        let blurView = UIVisualEffectView(effect: blur)
+        blurView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        return blurView
+    }()
+    private lazy var alertView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground
+        view.layer.cornerRadius = 12
+        return view
+    }()
     private let alertTextParam = TextParameters(
         font: UIFont(name: "Arial-BoldMT", size: 20)!,
         text: "Change your picture"
@@ -232,7 +242,9 @@ final class AccountSettingsViewController: UIViewController {
         view.addSubview(alertView)
         alertView.addSubview(alertLable)
         alertView.addSubview(verticalStackAlert)
-        verticalStackAlert.addViewInStack(stack: verticalStackAlert, views: fotoButton, chooseButton, deleteButton)
+        verticalStackAlert.addArrangedSubview(fotoButton)
+        verticalStackAlert.addArrangedSubview(chooseButton)
+        verticalStackAlert.addArrangedSubview(deleteButton)
     }
     
     private func setNavigationAppearance() {
@@ -344,44 +356,36 @@ final class AccountSettingsViewController: UIViewController {
                     make.height.equalTo(56)
                     make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
                 }
-        //
-        //        horisontalStack.snp.makeConstraints { make in
-        //            make.leading.trailing.equalTo(verticalStack).offset(0)
-        //            make.top.equalTo(genderLable.snp_bottomMargin).offset(10)
-        //        }
-        //
-        //        alertView.snp.makeConstraints { make in
-        //            make.centerXWithinMargins.equalTo(self.view)
-        //            make.top.equalTo(self.view).offset(180)
-        //            make.width.equalTo(328)
-        //            make.height.equalTo(340)
-        //        }
-        //
-        //        alertLable.snp.makeConstraints { make in
-        //            make.centerXWithinMargins.equalTo(alertView)
-        //            make.top.equalTo(alertView).offset(20)
-        //        }
-        //
-        //        verticalStackAlert.snp.makeConstraints { make in
-        //            make.leading.bottom.trailing.equalTo(alertView).offset(0)
-        //            make.top.equalTo(alertLable.snp_bottomMargin).offset(10)
-        //        }
-        //
-        //        fotoButton.snp.makeConstraints { make in
-        //            make.centerXWithinMargins.equalTo(verticalStack)
-        //            make.width.equalTo(fotoButtonParams.size.width)
-        //            make.height.equalTo(fotoButtonParams.size.height)
-        //        }
-        //        chooseButton.snp.makeConstraints { make in
-        //            make.centerXWithinMargins.equalTo(verticalStack)
-        //            make.width.equalTo(chooseButtonParams.size.width)
-        //            make.height.equalTo(chooseButtonParams.size.height)
-        //        }
-        //        deleteButton.snp.makeConstraints { make in
-        //            make.centerXWithinMargins.equalTo(verticalStack)
-        //            make.width.equalTo(deleteButtonParams.size.width)
-        //            make.height.equalTo(deleteButtonParams.size.height)
-        //        }
+        
+                alertView.snp.makeConstraints { make in
+                    make.top.equalToSuperview().offset(180)
+                    make.leading.trailing.equalToSuperview().inset(24)
+                    make.height.equalTo(340)
+                }
+        
+                alertLable.snp.makeConstraints { make in
+                    make.centerX.equalTo(alertView)
+                    make.top.equalTo(alertView).offset(20)
+                }
+        
+                verticalStackAlert.snp.makeConstraints { make in
+                    make.leading.bottom.trailing.equalTo(alertView).offset(0)
+                    make.top.equalTo(alertLable.snp_bottomMargin).offset(10)
+                }
+        
+                fotoButton.snp.makeConstraints { make in
+                    make.leading.trailing.equalTo(alertView).inset(16)
+                    make.height.equalTo(60)
+                }
+                chooseButton.snp.makeConstraints { make in
+                    make.leading.trailing.equalTo(alertView).inset(16)
+                    make.height.equalTo(60)
+                }
+                deleteButton.snp.makeConstraints { make in
+                    make.leading.trailing.equalTo(alertView).inset(16)
+                    make.height.equalTo(60)
+                    make.bottom.equalTo(alertView).inset(20)
+                }
         
     }
     

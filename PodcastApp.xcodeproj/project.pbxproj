@@ -30,6 +30,7 @@
 		0A56F1162AC7F7A400740A92 /* PodcastHomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56F1152AC7F7A400740A92 /* PodcastHomeViewCell.swift */; };
 		0A56F1182AC7F7C100740A92 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A56F1172AC7F7C100740A92 /* SearchViewController.swift */; };
 		0A6AB8312AF6159400827343 /* CustomPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AB8302AF6159400827343 /* CustomPhotoButton.swift */; };
+		0A6AB8332AF61CCA00827343 /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6AB8322AF61CCA00827343 /* UIView + Extension.swift */; };
 		0A929E972AD09A1B0050328D /* PlayingNowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A929E8D2AD09A1B0050328D /* PlayingNowViewController.swift */; };
 		0A929E982AD09A1B0050328D /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A929E8F2AD09A1B0050328D /* CustomSlider.swift */; };
 		0A929E992AD09A1B0050328D /* PodcastImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A929E912AD09A1B0050328D /* PodcastImageCell.swift */; };
@@ -111,6 +112,7 @@
 		0A56F1152AC7F7A400740A92 /* PodcastHomeViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastHomeViewCell.swift; sourceTree = "<group>"; };
 		0A56F1172AC7F7C100740A92 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		0A6AB8302AF6159400827343 /* CustomPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPhotoButton.swift; sourceTree = "<group>"; };
+		0A6AB8322AF61CCA00827343 /* UIView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
 		0A929E8D2AD09A1B0050328D /* PlayingNowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayingNowViewController.swift; sourceTree = "<group>"; };
 		0A929E8F2AD09A1B0050328D /* CustomSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		0A929E912AD09A1B0050328D /* PodcastImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodcastImageCell.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				0ABD2B952AD151ED00FC01C1 /* UIColor+Extension.swift */,
 				0AC0B4A82AC5776B00252B8B /* UILabel + Ext.swift */,
 				0A125D4F2AC214850006EACA /* UIFont+Extension.swift */,
+				0A6AB8322AF61CCA00827343 /* UIView + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -814,6 +817,7 @@
 				0A6AB8312AF6159400827343 /* CustomPhotoButton.swift in Sources */,
 				0AC0B4AB2AC5778000252B8B /* HomeModel.swift in Sources */,
 				0A125D502AC214850006EACA /* UIFont+Extension.swift in Sources */,
+				0A6AB8332AF61CCA00827343 /* UIView + Extension.swift in Sources */,
 				0A56F1162AC7F7A400740A92 /* PodcastHomeViewCell.swift in Sources */,
 				0AA1A3E72ACB340F00AE01A2 /* Slide.swift in Sources */,
 				0A56F1112AC7F75200740A92 /* API.swift in Sources */,

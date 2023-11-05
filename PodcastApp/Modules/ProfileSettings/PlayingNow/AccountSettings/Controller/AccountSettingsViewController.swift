@@ -178,15 +178,15 @@ final class AccountSettingsViewController: UIViewController {
     //MARK: - Methods
     
     private func makeRoundShape() {
-        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
-        editButton.layer.cornerRadius = editButton.frame.height / 2
-        firstNameTextField.layer.cornerRadius = firstNameTextField.frame.height / 2
-        lastNameTextField.layer.cornerRadius = lastNameTextField.frame.height / 2
-        emailTextField.layer.cornerRadius = emailTextField.frame.height / 2
-        dateTextField.layer.cornerRadius = dateTextField.frame.height / 2
-        maleButton.layer.cornerRadius = maleButton.frame.height / 2
-        femaleButton.layer.cornerRadius = femaleButton.frame.height / 2
-        saveChangeButton.layer.cornerRadius = saveChangeButton.frame.height / 2
+        profileImageView.makeRoundCorners()
+        editButton.makeRoundCorners()
+        firstNameTextField.makeRoundCorners()
+        lastNameTextField.makeRoundCorners()
+        emailTextField.makeRoundCorners()
+        dateTextField.makeRoundCorners()
+        maleButton.makeRoundCorners()
+        femaleButton.makeRoundCorners()
+        saveChangeButton.makeRoundCorners()
     }
     
     private func setViews() {
@@ -343,29 +343,11 @@ final class AccountSettingsViewController: UIViewController {
             make.top.bottom.equalToSuperview().inset(20)
         }
         
-//        alertLable.snp.makeConstraints { make in
-//           // make.leading.trailing.equalTo(verticalStackAlert)
-//           //make.top.equalTo(alertView).offset(20)
-//        }
-        
         grayLineView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(alertView)
             make.top.equalTo(alertLable.snp.bottom)
             make.height.equalTo(2)
         }
-        
-//        fotoButton.snp.makeConstraints { make in
-//            make.leading.trailing.equalTo(verticalStackAlert)
-//           //make.height.equalTo(60)
-//        }
-//        chooseButton.snp.makeConstraints { make in
-//           make.leading.trailing.equalTo(verticalStackAlert)
-//            //make.height.equalTo(60)
-//        }
-//        deleteButton.snp.makeConstraints { make in
-//           make.leading.trailing.equalTo(verticalStackAlert)
-//            //make.height.equalTo(60)
-//        }
         
     }
     

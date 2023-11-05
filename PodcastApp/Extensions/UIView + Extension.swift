@@ -8,9 +8,14 @@
 import UIKit
 
 extension UIView {
+    
     func addViews(views: UIView...) {
         for view in views {
             self.addSubview(view)
         }
+    }
+    
+    func makeRoundCorners() {
+        self.layer.cornerRadius = self.bounds.height / 2
     }
 }

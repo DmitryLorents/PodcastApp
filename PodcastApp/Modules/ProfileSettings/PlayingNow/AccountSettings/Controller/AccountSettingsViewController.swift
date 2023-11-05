@@ -8,37 +8,17 @@
 import UIKit
 import SnapKit
 
-struct ButtonsParams {
-    var size: CGSize
-    var radius: CGFloat
-    var color: UIColor
-    var image: String
-    var title: String
-}
-
-struct TextParameters {
-    var font: UIFont
-    var text: String
-}
-
-struct ImageParameters {
-    var size: CGSize
-    var image: String
-    var radiusImage: CGFloat
-}
-
-struct TextFieldParameters {
-    var size: CGSize
-    var radius: CGFloat
-    var placeholder: String
-}
-
 final class AccountSettingsViewController: UIViewController {
     //MARK: - Variables
     
     private let textFieldHeight = 52
     private let edgeOffset: CGFloat = 24
-    
+    private var isMaleGender: Bool = true {
+        didSet {
+            maleButton.setImage(UIImage(systemName: isMaleGender ? "checkmark.circle.fill" : "circle" ), for: .normal)
+            femaleButton.setImage(UIImage(systemName: !isMaleGender ? "checkmark.circle.fill" : "circle" ), for: .normal)
+            }
+        }
     private lazy var contentSize: CGSize = {
         CGSize(width: view.bounds.width, height: femaleButton.frame.maxY + 100)
     }()
@@ -86,8 +66,8 @@ final class AccountSettingsViewController: UIViewController {
     }()
     private lazy var datePiker = UIDatePicker()
     private lazy var genderLable = CustomProfileLabel(title: "Gender")
-    private lazy var maleButton = CustomProfileButton(title: "Male", imageName: "checkmark.circle.fill")
-    private lazy var femaleButton = CustomProfileButton(title: "Female", imageName: "circle")
+    private lazy var maleButton = CustomProfileButton(title: "Male", isPressed: true)
+    private lazy var femaleButton = CustomProfileButton(title: "Female", isPressed: false)
     private lazy var saveChangeButton: UIButton = {
         let button = UIButton()
         button.setTitle("Save changes", for: .normal)
@@ -354,11 +334,11 @@ final class AccountSettingsViewController: UIViewController {
     
     //MARK: - Button actions
     @objc func maleButtonPressed() {
-        print("Нажат")
+        isMaleGender = true
     }
     
     @objc func femaleButtonPressed() {
-        print("Не нажат")
+        isMaleGender = false
     }
     
     @objc func editButtonPressed() {

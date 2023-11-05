@@ -9,10 +9,10 @@ import UIKit
 
 class CustomProfileButton: UIButton {
     
-    init(title: String, imageName: String) {
+    init(title: String, isPressed: Bool) {
         super.init(frame: .zero)
         var configuration = UIButton.Configuration.plain()
-        configuration.image = UIImage(systemName: imageName)
+        configuration.image = UIImage(systemName: isPressed ? "checkmark.circle.fill" : "circle" )
         configuration.imagePlacement = .leading
         configuration.imagePadding = 5
         configuration.title = title

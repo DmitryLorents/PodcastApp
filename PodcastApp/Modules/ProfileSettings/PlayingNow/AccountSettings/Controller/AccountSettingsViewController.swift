@@ -15,8 +15,10 @@ final class AccountSettingsViewController: UIViewController {
     private let edgeOffset: CGFloat = 24
     private var isMaleGender: Bool = true {
         didSet {
-            maleButton.setImage(UIImage(systemName: isMaleGender ? "checkmark.circle.fill" : "circle" ), for: .normal)
-            femaleButton.setImage(UIImage(systemName: !isMaleGender ? "checkmark.circle.fill" : "circle" ), for: .normal)
+            maleButton.imageViewCheck.image = UIImage(systemName: isMaleGender ? "checkmark.circle.fill" : "circle" )
+            maleButton.layer.borderColor =  isMaleGender ? UIColor.customBlue.cgColor : UIColor.gray.cgColor
+            femaleButton.imageViewCheck.image = UIImage(systemName: !isMaleGender ? "checkmark.circle.fill" : "circle")
+            femaleButton.layer.borderColor =  !isMaleGender ? UIColor.customBlue.cgColor : UIColor.gray.cgColor
             }
         }
     private lazy var contentSize: CGSize = {
@@ -35,6 +37,7 @@ final class AccountSettingsViewController: UIViewController {
         imageView.image = UIImage(named: "face")
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .systemGray5
         return imageView
     }()
     
@@ -111,8 +114,8 @@ final class AccountSettingsViewController: UIViewController {
         return view
     }()
     
-    private lazy var fotoButton = CustomPhotoButton(title: "Take a photo", imageName: "")
-    private lazy var chooseButton = CustomPhotoButton(title: "Choose from your file", imageName: "")
+    private lazy var takePhotoButton = CustomPhotoButton(title: "Take a photo", imageName: "")
+    private lazy var choosePhotoButton = CustomPhotoButton(title: "Choose from your file", imageName: "")
     private lazy var deleteButton = CustomPhotoButton(title: "Delete photo", imageName: "")
     
     //MARK: - Life cycle
@@ -196,10 +199,17 @@ final class AccountSettingsViewController: UIViewController {
         alertView.addSubview(verticalStackAlert)
         verticalStackAlert.addArrangedSubview(alertLable)
         verticalStackAlert.addSubview(grayLineView)
-        verticalStackAlert.addArrangedSubview(fotoButton)
-        verticalStackAlert.addArrangedSubview(chooseButton)
+        verticalStackAlert.addArrangedSubview(takePhotoButton)
+        verticalStackAlert.addArrangedSubview(choosePhotoButton)
         verticalStackAlert.addArrangedSubview(deleteButton)
         deleteButton.tintColor = .red
+        
+        view.addSubview(blur)
+        blur.frame = view.bounds
+        blur.isHidden = true
+        
+        view.addSubview(alertView)
+        alertView.isHidden = true
     }
     
     private func setNavigationAppearance() {
@@ -331,6 +341,11 @@ final class AccountSettingsViewController: UIViewController {
         
     }
     
+    private func hideAlertView() {
+        blur.isHidden = true
+        alertView.isHidden = true
+    }
+    
     
     //MARK: - Button actions
     @objc func maleButtonPressed() {
@@ -342,12 +357,9 @@ final class AccountSettingsViewController: UIViewController {
     }
     
     @objc func editButtonPressed() {
-        view.addSubview(blur)
-        blur.frame = view.bounds
-        view.addSubview(alertView)
-        alertView.isHidden = !alertView.isHidden
+        blur.isHidden = false
+        alertView.isHidden = false
     }
-    
     
     @objc func saveButtonPressed() {
         let user = UserModel(firstName: firstNameTextField.text,
@@ -367,6 +379,19 @@ final class AccountSettingsViewController: UIViewController {
     @objc func doneClicked(){
         dateTextField.text = formatDate(date: datePiker.date)
         view.endEditing(true)
+    }
+    
+    @objc private func deleteButtonPressed() {
+        profileImageView.image = nil
+        hideAlertView()
+    }
+    
+    @objc private func takePhotoButtonPressed() {
+        
+    }
+    
+    @objc private func chooseButtonPressed() {
+        
     }
     
     
@@ -403,7 +428,12 @@ final class AccountSettingsViewController: UIViewController {
         femaleButton.addTarget(self, action: #selector(femaleButtonPressed), for: .touchUpInside)
         saveChangeButton.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         datePiker.addTarget(self, action: #selector (setDateCalendar(datePiker:)), for: .valueChanged)
+        takePhotoButton.addTarget(self, action: #selector(takePhotoButtonPressed), for: .touchUpInside)
+        choosePhotoButton.addTarget(self, action: #selector(chooseButtonPressed), for: .touchUpInside)
+        deleteButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
+        
     }
+    
 }
 
 

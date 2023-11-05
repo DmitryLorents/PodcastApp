@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import PhotosUI
 
 final class AccountSettingsViewController: UIViewController {
     //MARK: - Variables
@@ -391,7 +392,13 @@ final class AccountSettingsViewController: UIViewController {
     }
     
     @objc private func chooseButtonPressed() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = PHPickerFilter.any(of: [.images, .livePhotos])
+        configuration.selectionLimit = 1
         
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
     }
     
     
@@ -449,6 +456,30 @@ extension AccountSettingsViewController: UITextFieldDelegate, UIScrollViewDelega
     }
 }
 
-
+extension AccountSettingsViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        for item in results {
+            item.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                guard let self else {return}
+                guard let image = image as? UIImage, error == nil else {
+                    DispatchQueue.main.async {
+                        print(error?.localizedDescription as Any)
+                        self.dismiss(animated: true)
+                        self.hideAlertView()
+                    }
+                   return
+                }
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image
+                    self.dismiss(animated: true)
+                    self.hideAlertView()
+                }
+                
+            }
+        }
+    }
+    
+    
+}
 
 
